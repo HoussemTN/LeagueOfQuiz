@@ -1,0 +1,77 @@
+
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SIGN IN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{asset('css/style.css')}}" />
+     {% endblock %}
+       {% block scripts %}
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/script.js')}}"></script>
+      {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="animation">
+            <div style="text-align:center">
+
+                <video id="video1" width="104%" height="100%" autoplay="on" loop>
+                  <source src="animations\anim1.mp4" type="video/mp4">
+                
+                  Your browser does not support HTML5 video.
+                </video>
+            </div>
+
+            <!--<iframe width="1100px" height="655px" autoplay="autoplay" controls=0 loop frameborder="0" id="my-video" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" data-ready="true" src="animations\anim1.mp4">
+                </iframe>-->
+
+        </div>
+        <div class="login-screen">
+            <div class="login-container">
+                <div class="center"> <img src="img/logo.png" alt="League Of Draven" width="180px" height="80px"></div>
+
+                <h1>SIGN IN</h1>
+                
+                <div class="space_xs"></div>
+              {{ form_start(f) }}
+            
+              <div class="space_xs"></div>
+                {{ form_label(f.Username) }}
+             {{ form_widget(f.Username, {'attr': {'class': 'form-control'}}) }}
+            
+              <div class="space_xs"></div>
+               {{ form_label(f.Password) }}
+                {{ form_widget(f.Password, {'attr': {'class': 'form-control'}}) }}
+                <div class="space_x"></div>
+               
+                {{ form_widget(f.SIGNIN, {'attr': {'class': 'form-control login'}}) }}
+               {{ form_widget(f.SIGNIN, { 'value': 'SiopUP' }) }}
+               
+              {{ form_end(f) }}
+         
+            <a href="/signup"> <button   name="login" class="form-control login" >SIGN UP</button></a>
+            
+            </div>
+
+             
+        </div>
+        <div class="footer-bar">
+
+            <div class="item">
+                <input type="checkbox" onchange="playPause()" id="play-stop" class="form-control checkbox">
+                <label for="play-stop">Disable Login Animations</label>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
