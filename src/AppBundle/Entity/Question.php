@@ -2,12 +2,29 @@
 namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="question")
+  * @UniqueEntity("Rank")
  */
  class Question{ 
-    
+
+ /**
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="idQuestion")
+     */
+     private $questions;
+
+     public function __construct()
+     {
+         $this->questions = new ArrayCollection();
+     }
+       /**
+           * @ORM\Column(type="integer",unique=true )
+        */
+        private $Rank=0 ;
+ 
     /**
          * @ORM\Id
          * @ORM\GeneratedValue
@@ -38,7 +55,22 @@ use Doctrine\ORM\Mapping as ORM;
          * @ORM\Column(type="string", length=255)
          */
          private $Image4 ;
-    
+         
+      /**
+      * @return mixed
+      */
+      public function getRank()
+      {
+          return $this->Rank;
+      }
+       /**
+      * @param mixed $Rank
+      */
+     public function setRank($Rank)
+     {
+         $this->Rank = $Rank;
+     }
+
         /**
          * @return mixed
          */

@@ -1,0 +1,64 @@
+<html>
+
+    <head>
+        <meta charset='utf-8'>
+        <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+        <title>League of Legends</title>
+        <meta content='width=device-width, initial-scale=1' name='viewport'>
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{asset('css/style.css')}}"/>
+        {% endblock %}
+
+    </head>
+
+    <body class="game-body">
+        <div class="game-container">
+            <div class="box">
+                <div class="head">
+                    <table>
+                        <tr>
+                            <td><img class="loot" src="img/be.png"></td>
+                            <td><img class="loot" src="img/key.png"></td>
+                            <td><img class="loot" src="img/gem.png"></td>
+
+                        </tr>
+
+                    
+                            <tr>
+                                <td class="loot-quantity">{{ p.be }}</td>
+                                <td class="loot-quantity">{{ p.cle }}</td>
+                                <td class="loot-quantity">{{ p.score }}</td>
+                                 <td><a href="{{ path('suppPlayer',{ id: 1 }) }}">Supprimer</a></td>
+                            </tr>
+                      
+                    </table>
+
+                </div>
+                <div class="body">
+                    <table>
+                        <tr>
+                            <td class="images"><img src={{q.image1}}></td>
+                            <td class="images"><img src={{q.image1}}></td>
+                        </tr>
+                        <tr>
+                            <td class="images"><img src={{q.image1}}></td>
+                            <td class="images"><img src={{q.image1}}></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="bottom">
+                {{ form_start(f) }}
+                {{ form_widget(f.Response, {'attr': {'class': 'form-control','autocomplete' : 'off','placeholder':'Answer'}}) }}
+                  {{ form_widget(f.Submit, {'attr': {'class': 'form-control login'}}) }}
+               {{ form_widget(f.Submit) }}
+                {{ form_end(f) }}
+               <!-- <input type="text" class="form-control ">
+                <input type="submit" class="login" value=">" >-->
+
+                </div>
+            </div>
+
+        </div>
+    </body>
+
+</html>
