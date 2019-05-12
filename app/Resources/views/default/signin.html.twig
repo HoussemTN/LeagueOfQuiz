@@ -43,11 +43,13 @@
             
               <div class="space_xs"></div>
                 {{ form_label(f.Username) }}
-             {{ form_widget(f.Username, {'attr': {'class': 'form-control'}}) }}
+                <div class="space_xs"></div>
+             {{ form_widget(f.Username, {'attr': {'class': 'form-control','autocomplete' : 'off'}}) }}
             
               <div class="space_xs"></div>
                {{ form_label(f.Password) }}
-                {{ form_widget(f.Password, {'attr': {'class': 'form-control'}}) }}
+               <div class="space_xs"></div>
+                {{ form_widget(f.Password, {'attr': {'class': 'form-control','autocomplete' : 'off'}}) }}
                 <div class="space_x"></div>
                
                 {{ form_widget(f.SIGNIN, {'attr': {'class': 'form-control login'}}) }}

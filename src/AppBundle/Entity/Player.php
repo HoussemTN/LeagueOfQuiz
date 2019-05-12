@@ -2,15 +2,28 @@
 namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="player")
+ * @UniqueEntity("Email")
  */
 class Player{ 
- 
- 
+   /**
+     * @ORM\ManyToOne(targetEntity="Question", inversedBy="questions")
+     * @ORM\JoinColumn(name="idQuestion", referencedColumnName="id")
+     
+     */
+     private $idQuestion ;
+      /**
+      * @return mixed
+      */
+      public function getIdQuestion()
+      {
+          return $this->idQuestion;
+      }
  /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,7 +39,8 @@ class Player{
      */
      private $Username ;
      /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 ,unique=true)
+     * @Assert\Email
      */
      private $Email ;
 
@@ -46,11 +60,7 @@ class Player{
      * @ORM\Column(type="integer")
      */
      private $BE =1000;
-	/**
-     * @ORM\Column(type="integer" )
-     */
-     private $Rank=0 ;
-
+	
     /**
      * @return mixed
      */
@@ -115,13 +125,7 @@ class Player{
          return $this->BE;
      }
  
-     /**
-      * @return mixed
-      */
-     public function getRank()
-     {
-         return $this->Rank;
-     }
+    
  
      /**
       * @param mixed $id
@@ -187,13 +191,7 @@ class Player{
          $this->BE = $BE;
      }
  
-     /**
-      * @param mixed $Rank
-      */
-     public function setRank($Rank)
-     {
-         $this->Rank = $Rank;
-     }
+    
 
 }
 

@@ -49,8 +49,16 @@
                 <div class="space_xs"></div>
              {{ form_widget(f.Username, {'attr': {'class': 'form-control','autocomplete' : 'off'}}) }}
              <div class="space_xs"></div>
+              <ul class="list-error">
+             {% if errors %}
+              {% for error in errors %}
+             <li class="error">{{ error.message }}</li>
+               {% endfor %}
+             </ul>
+             {% endif %}
               {{ form_label(f.Email) }}
               <div class="space_xs"></div>
+             
               {{ form_widget(f.Email, {'attr': {'class': 'form-control','autocomplete' : 'off'}}) }}
               <div class="space_xs"></div>
                {{ form_label(f.Password) }}
