@@ -28,7 +28,7 @@
                                 <td class="loot-quantity">{{ p.be }}</td>
                                 <td class="loot-quantity">{{ p.cle }}</td>
                                 <td class="loot-quantity">{{ p.score }}</td>
-                                 <td><a href="{{ path('suppPlayer',{ id: 1 }) }}">Supprimer</a></td>
+                               
                             </tr>
                       
                     </table>
@@ -38,11 +38,14 @@
                     <table>
                         <tr>
                             <td class="images"><img src={{q.image1}}></td>
-                            <td class="images"><img src={{q.image1}}></td>
+                            <td class="images"><a href="{{ path('showImage',{id: 1 ,num :10,PriceKey :1}) }}">
+                            <img src={{q.image2}}></a></td>
                         </tr>
                         <tr>
-                            <td class="images"><img src={{q.image1}}></td>
-                            <td class="images"><img src={{q.image1}}></td>
+                            <td class="images"><a href="{{ path('showImage',{ id: 1 ,num :100,PriceKey :2}) }}">
+                            <img src={{q.image3}}></a></td>
+                            <td class="images"><a href="{{ path('showImage',{ id: 1 ,num :1000,PriceKey :3}) }}">
+                            <img src={{q.image4}}></a></td>
                         </tr>
                     </table>
                 </div>

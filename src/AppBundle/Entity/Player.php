@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Question;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,12 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("Email")
  */
 class Player{ 
-   /**
-     * @ORM\ManyToOne(targetEntity="Question", inversedBy="questions")
-     * @ORM\JoinColumn(name="idQuestion", referencedColumnName="id")
-     
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Question", cascade={"remove"})
+     * @ORM\JoinColumn(name="idQuestion", referencedColumnName="id",onDelete="CASCADE", nullable=false)
      */
-     private $idQuestion ;
+  
+private $idQuestion;
       /**
       * @return mixed
       */
@@ -24,6 +26,13 @@ class Player{
       {
           return $this->idQuestion;
       }
+     
+     
+     public function setIdQuestion($idQuestion)
+     {
+         $this->idQuestion= $idQuestion;
+     }
+     
  /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -51,7 +60,7 @@ class Player{
      /**
      * @ORM\Column(type="integer")
      */
-     private $Score=0 ;
+     private $Score =0;
       /**
      * @ORM\Column(type="integer")
      */
@@ -60,7 +69,11 @@ class Player{
      * @ORM\Column(type="integer")
      */
      private $BE =1000;
-	
+	 /**
+     * @ORM\Column(type="integer")
+     */
+     private $ShownImages=1 ;
+  
     /**
      * @return mixed
      */
@@ -68,7 +81,13 @@ class Player{
      {
          return $this->id;
      }
- 
+  /**
+     * @return mixed
+     */
+     public function getShownImages()
+     {
+         return $this->ShownImages;
+     }
      /**
       * @return mixed
       */
@@ -142,6 +161,13 @@ class Player{
      {
          $this->Name = $Name;
      }
+       /**
+      * @param mixed $ShownImages
+      */
+      public function setShownImages($ShownImages)
+      {
+          $this->ShownImages = $ShownImages;
+      }
  
      /**
       * @param mixed $Surname
@@ -190,7 +216,8 @@ class Player{
      {
          $this->BE = $BE;
      }
- 
+    
+
     
 
 }

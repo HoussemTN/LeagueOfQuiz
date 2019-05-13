@@ -14,12 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  /**
      * @ORM\OneToMany(targetEntity="Player", mappedBy="idQuestion")
      */
-     private $questions;
-
-     public function __construct()
-     {
-         $this->questions = new ArrayCollection();
-     }
+     
        /**
            * @ORM\Column(type="integer",unique=true )
         */
@@ -55,13 +50,23 @@ use Symfony\Component\Validator\Constraints as Assert;
          * @ORM\Column(type="string", length=255)
          */
          private $Image4 ;
-         
+          /**
+         * @ORM\Column(type="string", length=255)
+         */
+         private $Hint ;
       /**
       * @return mixed
       */
       public function getRank()
       {
           return $this->Rank;
+      }
+        /**
+      * @return mixed
+      */
+      public function getHint()
+      {
+          return $this->Hint;
       }
        /**
       * @param mixed $Rank
@@ -78,6 +83,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         {
             return $this->id;
         }
+       
     
         /**
          * @param mixed $id
@@ -182,5 +188,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         {
             $this->Image4 = $Image4;
         }
+          /**
+         * @param mixed $Hint
+         */
+         public function setHint($Hint)
+         {
+             $this->Hint = $Hint;
+         }
+        
+      
     
     }
