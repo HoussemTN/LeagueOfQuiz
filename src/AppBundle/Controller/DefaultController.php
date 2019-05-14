@@ -120,7 +120,7 @@ if ($f->isSubmitted() && $f->isValid()){
     // getting current loot
     $BE= $player->getBE(); 
     $score = $player->getScore();
-   
+
    // if he don't have enough BE to Play redirect to gameover
    // TO DO Create game Over Screen  
     if($BE<100){
