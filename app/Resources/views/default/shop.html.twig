@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+ <head>
+        <meta charset='utf-8'>
+        <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+        <title>Shop</title>
+        <meta content='width=device-width, initial-scale=1' name='viewport'>
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{asset('css/style.css')}}"/>
+         {% endblock %}
+    </head>
+
+<body class="game-body">
+    <div class="game-container">
+        <div class="box">
+            <div class="head">
+                <div class="left-title">
+                    <center>Shop</center>
+                </div>
+                <table>
+                    <tr>
+                        <td><img src="../img/be.png" class="loot"></td>
+                        <td><img src="../img/key.png" class="loot"></td>
+                        <td><img class="loot" src="../{{elo}}"></td>
+
+                    </tr>
+                    <tr>
+
+                        <td class="loot-quantity">{{p.BE}}</td>
+                        <td class="loot-quantity">{{p.Cle}}</td>
+                        <td class="loot-quantity">{{LP}} LP</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+             {% for msg in app.session.flashBag.get('valid') %}
+                <div class="flash-valid">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+             {% for msg in app.session.flashBag.get('error') %}
+                <div class="flash-error">
+                    {{ msg }}
+                </div>
+            {% endfor %}
+            <div class="body">
+                <table>
+                    <tr>
+
+                        <td class="images"><img src="../img/img-key.png">
+                            <center>
+                                <h3 class="offer-title">1 Key</h3>
+                                <h5 class="offer-description">Buy 1 Hextech Key with 500 Blue Essence</h5>
+                                <a  href="{{ path('PurchaseKeys',{id: 1 ,price :500,Quantity :1}) }}" onClick="clickAndDisable(this)" > 
+                                <input type="button" value="Purshase" class="form-control">
+                               </a>
+                            </center>
+                        </td>
+                        <td class="images"><img src="../img/img-key.png">
+                            <center>
+                                <h3 class="offer-title">5 Keys</h3>
+                                <h5 class="offer-description">Buy 5 Hextech Keys with 2500 Blue Essence</h5>
+                              <a  href="{{ path('PurchaseKeys',{id: 1 ,price :2500,Quantity :5}) }}" onClick="clickAndDisable(this)" > 
+                                <input type="button" value="Purshase" class="form-control">
+                               </a>
+        
+                            </center>
+
+                        </td>
+                        <td class="images"><img src="../img/img-key.png">
+                            <center>
+                                <h3 class="offer-title">10 Keys</h3>
+                                <h5 class="offer-description">Buy 10 Hextech Keys with 4750 Blue Essence</h5>
+                                <a  href="{{ path('PurchaseKeys',{id: 1 ,price :4750,Quantity :10}) }}" onClick="clickAndDisable(this)" > 
+                                <input type="button" value="Purshase" class="form-control">
+                               </a>
+                            </center>
+                        </td>
+                    </tr>
+
+                </table>
+                
+            </div>
+
+
+        </div>
+
+    </div>
+    <script> 
+   function clickAndDisable(link) {
+    //disable spam clicks
+     link.onclick = function(event) {
+        event.preventDefault();
+     }
+   }   
+</script>
+</body>
+
+</html>

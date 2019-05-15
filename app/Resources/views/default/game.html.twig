@@ -15,26 +15,33 @@
         <div class="game-container">
             <div class="box">
                 <div class="head">
+                 <div class="left-content">
+                  <h3>Level {{q.rank}}</h3>
+        
+                 </div>
                     <table>
                         <tr>
                             <td><img class="loot" src="img/be.png"></td>
                             <td><img class="loot" src="img/key.png"></td>
-                            <td><img class="loot" src="img/gem.png"></td>
-
+                            <td><img class="loot" src="{{elo}}"></td>
+                           
                         </tr>
 
                     
                             <tr>
                                 <td class="loot-quantity">{{ p.be }}</td>
                                 <td class="loot-quantity">{{ p.cle }}</td>
-                                <td class="loot-quantity">{{ p.score }}</td>
+                                <td class="loot-quantity">{{LP}} LP</td>
                                
                             </tr>
                       
                     </table>
 
                 </div>
+                 <div class="shop">
+                        <a href="{{ path('shop',{ id: 1 }) }}">Shop</a></div>
                 <div class="body">
+               
                     <table>
                         <tr>
                             <td class="images"><img src={{q.image1}}></td>
@@ -49,18 +56,32 @@
                         </tr>
                     </table>
                 </div>
+                <!-- Showing Errors-->
+                <div class="errors">
+               
+                {% for label, messages in app.flashes %}
+                  {% for message in messages %}
+                       
+                        <div class="flash-{{ label }}">
+                        
+                            {{ message }}</li>
+                        
+                        </div>
+                    
+                  {% endfor %}
+                {% endfor %}
+                
+                </div>
+
                 <div class="bottom">
                 {{ form_start(f) }}
                 {{ form_widget(f.Response, {'attr': {'class': 'form-control','autocomplete' : 'off','placeholder':'Answer'}}) }}
                   {{ form_widget(f.Submit, {'attr': {'class': 'form-control login'}}) }}
                {{ form_widget(f.Submit) }}
                 {{ form_end(f) }}
-               <!-- <input type="text" class="form-control ">
-                <input type="submit" class="login" value=">" >-->
-
+               
                 </div>
             </div>
-
         </div>
     </body>
 

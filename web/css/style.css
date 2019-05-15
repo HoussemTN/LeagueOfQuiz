@@ -301,6 +301,38 @@ h1 {
     float: right;
 }
 
+.flash-error {
+    text-align: center;
+    background-color: red;
+    color: white;
+    padding-top: 10px;
+    height: 40px;
+    padding-left: 10px;
+}
+
+.flash-notice {
+    color: orangered;
+    padding-left: 10px;
+}
+
+.flash-valid {
+    text-align: center;
+    background-color: green;
+    color: white;
+    height: 40px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.left-content {
+    float: left;
+    padding: 5px;
+    padding-top: 0px;
+    margin-top: -10px;
+    color: #c9aa71;
+    margin-left: 5px;
+}
+
 .loot {
     margin-left: 0px;
     display: inline;
@@ -339,4 +371,32 @@ h1 {
 .bottom .login {
     width: 120px;
     height: 31px;
+}
+
+
+/*shop added Style*/
+
+.shop {
+    padding: 10px;
+    float: right;
+}
+
+.offer-title {
+    color: #a7780c;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.offer-description {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #a7780c;
+}
+
+.left-title {
+    font-weight: bold;
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    float: left;
+    padding: 5px;
+    color: #c9aa71;
+    margin-left: 5px;
 }
