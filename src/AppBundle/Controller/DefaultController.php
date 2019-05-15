@@ -85,7 +85,40 @@ public function game(Request $request){
     //get Question for the player 
     $repository = $this->getDoctrine()->getRepository(Question::class);
     $question=$repository->find($player->getIdQuestion()->getRank());
-    
+    //manage ranks
+    $rank = $player->getScore();
+    if($rank==0){
+        $elo= "img/ranks/unranked.jfif";
+    }else if ($rank>0 && $rank<=100){
+        $elo= "img/ranks/Iron.png";
+        $LP=$rank;
+    }else if ($rank>100 && $rank<=200){
+       $LP=$rank-100;
+        $elo= "img/ranks/Bronze.png";
+    }else if($rank>200 && $rank<=300){
+       $LP=$rank-200;
+        $elo= "img/ranks/Silver.png";
+    }else if($rank>300 && $rank<=400){
+       $LP=$rank-300;
+        $elo= "img/ranks/Gold.png";
+    }else if($rank>400 && $rank<=500){ 
+       $LP=$rank-400;
+        $elo= "img/ranks/Platinum.png";
+    }else if ($rank>500 && $rank<=600){
+       $LP=$rank-500;
+        $elo= "img/ranks/Diamond.png";
+    }else if ($rank>600 && $rank<=700){
+       $LP=$rank-600;
+        $elo= "img/ranks/Master.png";
+    }else if ($rank>700 && $rank<=800){
+        $LP=$rank;
+        $elo= "img/ranks/GrandMaster.png";
+     }else if($rank>800){
+       $LP=$rank;
+        $elo= "img/ranks/Challenger.png";
+     }
+
+    //control ShownImages
     if($player->getShownImages()==1){
         $question->setImage2('img/chest.jpg');
         $question->setImage3('img/chest.jpg');
@@ -115,6 +148,7 @@ public function game(Request $request){
     
 $f->handleRequest($request);
 if ($f->isSubmitted() && $f->isValid()){
+    
     //getting posted form data
     $data = $f->getData();
     // getting current loot
@@ -124,12 +158,14 @@ if ($f->isSubmitted() && $f->isValid()){
    // if he don't have enough BE to Play redirect to gameover
    // TO DO Create game Over Screen  
     if($BE<100){
-        return $this->redirectToRoute('signin');
+        $this->addFlash('error','You Don\'t Have enough BE!');
+        return $this->redirectToRoute('game');
     }
     // if response is correct
     if($data->getResponse()==$question->getResponse()){
        $player->setBE($BE+1000); 
-        $player->setScore($score+10);
+        $player->setScore($score+$question->getReward());
+        $player->setShownImages(1);
         $em=$this->getDoctrine()->getManager();
         // player->getIdGuestion return a question object then we acces to rank and increment it
         $question=$em->getRepository(Question::class)->find($player->getIdQuestion()->getRank()+1);
@@ -139,18 +175,19 @@ if ($f->isSubmitted() && $f->isValid()){
          
     // if response is incorrect     
     }else{
+        $this->addFlash('error','Incorrect Answer');
         $player->setBE($BE-100); 
         $em=$this->getDoctrine()->getManager();
         $em->persist($player);
          $em->flush();
     }
-    /* $em=$this->getDoctrine()->getManager();
-    $em->persist($l);
-    $em->flush();*/
+   
     return $this->redirectToRoute('game');
 }
 return $this->render('default/game.html.twig', [
     'p'=>$player,
+    'elo'=>$elo,
+    'LP'=>$LP,
     'q'=>$question,
     'f'=>$f->createView()
     ]);
@@ -183,11 +220,89 @@ public function showImage($id,$num,$PriceKey)
    $Player->setCle($nbCle-$PriceKey);
    $em->persist($Player);
    $em->flush();
+   }else{ 
+       $needed =$PriceKey-$nbCle ;
+       if($needed>1){
+           $keys ="keys";
+       }else{
+           $keys="key";
+       }
+
+        //  $this->addFlash('error','You need '.$needed.' '.$keys.' to unlock this chest');
+        
+   
    }
   return $this->redirectToRoute('game');
 }
 
+/**
+* @Route("/shop/{id}", name="shop")
+*/
+public function shop($id){
+    $player= new Player();
+    $repository = $this->getDoctrine()->getRepository(Player::class);
+    $player=$repository->find($id);
+ //elo rank 
+ $rank = $player->getScore();
+ if($rank==0){
+     $elo= "img/ranks/unranked.jfif";
+ }else if ($rank>0 && $rank<=100){
+     $elo= "img/ranks/Iron.png";
+     $LP=$rank;
+ }else if ($rank>100 && $rank<=200){
+    $LP=$rank-100;
+     $elo= "img/ranks/Bronze.png";
+ }else if($rank>200 && $rank<=300){
+    $LP=$rank-200;
+     $elo= "img/ranks/Silver.png";
+ }else if($rank>300 && $rank<=400){
+    $LP=$rank-300;
+     $elo= "img/ranks/Gold.png";
+ }else if($rank>400 && $rank<=500){ 
+    $LP=$rank-400;
+     $elo= "img/ranks/Platinum.png";
+ }else if ($rank>500 && $rank<=600){
+    $LP=$rank-500;
+     $elo= "img/ranks/Diamond.png";
+ }else if ($rank>600 && $rank<=700){
+    $LP=$rank-600;
+     $elo= "img/ranks/Master.png";
+ }else if ($rank>700 && $rank<=800){
+     $LP=$rank;
+     $elo= "img/ranks/GrandMaster.png";
+  }else if($rank>800){
+    $LP=$rank;
+     $elo= "img/ranks/Challenger.png";
+  }
+  
+    return $this->render('default/shop.html.twig', [
+        'p'=>$player,
+        'elo'=>$elo,
+        'LP'=>$LP
+    ]);
 
+}
+/**
+* @Route("/PurchaseKeys/{id}/{price}/{Quantity}", name="PurchaseKeys")
+*/
+ public function PurchaseKeys($id,$price,$Quantity){
+    $player= new Player();
+    $repository = $this->getDoctrine()->getRepository(Player::class);
+    $player=$repository->find($id);
+    $BE=$player->getBE();
+    if($price<=$BE){
+    $nbMyKeys=$player->getCle();
+    $player->setCle($nbMyKeys+$Quantity);
+    $player->setBE($BE-$price);
+    $em=$this->getDoctrine()->getManager();
+    $em->persist($player);
+    $em->flush();
+    $this->addFlash('valid',"Purchase Sucessfully done !");
+}else{
+    $this->addFlash('error','You Don\'t Have enough BE!');
+}
+    return $this->redirectToRoute('shop',array('id' => $id));
+ }
 }
 
 
