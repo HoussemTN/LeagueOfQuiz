@@ -400,3 +400,14 @@ h1 {
     color: #c9aa71;
     margin-left: 5px;
 }
+
+
+/* in game*/
+
+.flash-errors-game {
+    padding-top: 10px;
+    margin-top: -10px;
+    height: 30px;
+    background-color: red;
+    color: white;
+}

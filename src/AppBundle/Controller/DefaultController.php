@@ -119,27 +119,9 @@ public function game(Request $request){
      }
 
     //control ShownImages
-    if($player->getShownImages()==1){
-        $question->setImage2('img/chest.jpg');
-        $question->setImage3('img/chest.jpg');
-        $question->setImage4('img/chest.jpg');
-    }else if ($player->getShownImages()==11){
-        $question->setImage3('img/chest.jpg');
-        $question->setImage4('img/chest.jpg');
-    }else if($player->getShownImages()==101){
-        $question->setImage2('img/chest.jpg');
-        $question->setImage4('img/chest.jpg');
-    }else if($player->getShownImages()==1001){
-        $question->setImage2('img/chest.jpg');
-        $question->setImage3('img/chest.jpg');
-    }else if($player->getShownImages()==111){
-        $question->setImage4('img/chest.jpg');
-    }else if($player->getShownImages()==1011){
-        $question->setImage3('img/chest.jpg');
-    }else if($player->getShownImages()==1101){
-        $question->setImage2('img/chest.jpg');
-    }else{}
-        //empty Question
+     self::ControlShownImages($question,$player);
+
+    //empty Question
    $res =new Question();
     $f=$this->createFormBuilder($res)
     ->add("Response",TextType::class)
@@ -151,16 +133,12 @@ if ($f->isSubmitted() && $f->isValid()){
     
     //getting posted form data
     $data = $f->getData();
+
     // getting current loot
     $BE= $player->getBE(); 
     $score = $player->getScore();
 
-   // if he don't have enough BE to Play redirect to gameover
-   // TO DO Create game Over Screen  
-    if($BE<100){
-        $this->addFlash('error','You Don\'t Have enough BE!');
-        return $this->redirectToRoute('game');
-    }
+
     // if response is correct
     if($data->getResponse()==$question->getResponse()){
        $player->setBE($BE+1000); 
@@ -171,15 +149,13 @@ if ($f->isSubmitted() && $f->isValid()){
         $question=$em->getRepository(Question::class)->find($player->getIdQuestion()->getRank()+1);
         $player->setIdQuestion($question);
         $em->persist($player);
-         $em->flush();
+         $em->flush();  
+          // TODO Create Victory Screen 
          
     // if response is incorrect     
-    }else{
-        $this->addFlash('error','Incorrect Answer');
-        $player->setBE($BE-100); 
-        $em=$this->getDoctrine()->getManager();
-        $em->persist($player);
-         $em->flush();
+    } if ($data->getResponse()!=$question->getResponse()){
+        $this->addFlash('errors-game','Incorrect Answer');
+    
     }
    
     return $this->redirectToRoute('game');
@@ -192,7 +168,7 @@ return $this->render('default/game.html.twig', [
     'f'=>$f->createView()
     ]);
 }
-
+ 
 
 /**
 * @Route("/suppPlayer/{id}", name="suppPlayer")
@@ -303,8 +279,33 @@ public function shop($id){
 }
     return $this->redirectToRoute('shop',array('id' => $id));
  }
+ public function ControlShownImages(Question $question,Player $player){
+ if($player->getShownImages()==1){
+    $question->setImage2('img/chest.jpg');
+    $question->setImage3('img/chest.jpg');
+    $question->setImage4('img/chest.jpg');
+}else if ($player->getShownImages()==11){
+    $question->setImage3('img/chest.jpg');
+    $question->setImage4('img/chest.jpg');
+}else if($player->getShownImages()==101){
+    $question->setImage2('img/chest.jpg');
+    $question->setImage4('img/chest.jpg');
+}else if($player->getShownImages()==1001){
+    $question->setImage2('img/chest.jpg');
+    $question->setImage3('img/chest.jpg');
+}else if($player->getShownImages()==111){
+    $question->setImage4('img/chest.jpg');
+}else if($player->getShownImages()==1011){
+    $question->setImage3('img/chest.jpg');
+}else if($player->getShownImages()==1101){
+    $question->setImage2('img/chest.jpg');
+}else{}
+    
+//end ControlShownImage function  
+}
+//end class
 }
 
 
-//end class
+
 

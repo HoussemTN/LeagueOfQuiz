@@ -38,6 +38,7 @@
                     </table>
 
                 </div>
+            
                  <div class="shop">
                         <a href="{{ path('shop',{ id: 1 }) }}">Shop</a></div>
                 <div class="body">
@@ -56,8 +57,15 @@
                         </tr>
                     </table>
                 </div>
-                <!-- Showing Errors-->
-                <div class="errors">
+               
+
+                <div class="bottom">
+                {{ form_start(f) }}
+                {{ form_widget(f.Response, {'attr': {'class': 'form-control','autocomplete' : 'off','placeholder':'Answer'}}) }}
+                  {{ form_widget(f.Submit, {'attr': {'class': 'form-control login'}}) }}
+               {{ form_widget(f.Submit) }}
+                {{ form_end(f) }}
+                <div class="errors-game">
                
                 {% for label, messages in app.flashes %}
                   {% for message in messages %}
@@ -72,15 +80,9 @@
                 {% endfor %}
                 
                 </div>
-
-                <div class="bottom">
-                {{ form_start(f) }}
-                {{ form_widget(f.Response, {'attr': {'class': 'form-control','autocomplete' : 'off','placeholder':'Answer'}}) }}
-                  {{ form_widget(f.Submit, {'attr': {'class': 'form-control login'}}) }}
-               {{ form_widget(f.Submit) }}
-                {{ form_end(f) }}
-               
                 </div>
+                 <!-- Showing Errors-->
+               
             </div>
         </div>
     </body>
