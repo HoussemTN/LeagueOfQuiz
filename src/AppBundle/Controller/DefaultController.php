@@ -85,7 +85,10 @@ public function game(Request $request){
     //get Question for the player 
     $repository = $this->getDoctrine()->getRepository(Question::class);
     $question=$repository->find($player->getIdQuestion()->getRank());
-   
+    if ($player->getIdQuestion()->getRank()==3){
+        //TODO LeaderBoard
+        return $this->redirectToRoute('signin');
+    }
     //manage ranks
     $rank = $player->getScore();
     if($rank==0){
@@ -199,23 +202,32 @@ public function showImage($id,$num,$PriceKey)
    $nbShownImages= $Player->getShownImages();
    $nbCle= $Player->getCle();
    // there is image to unlock have enough keys
-   if ($nbShownImages<1111 && $PriceKey<=$nbCle ){
-   $Player->setShownImages($nbShownImages+$num);
-   $Player->setCle($nbCle-$PriceKey);
-   $em->persist($Player);
-   $em->flush();
-   }else{ 
-       $needed =$PriceKey-$nbCle ;
-       if($needed>1){
-           $keys ="keys";
-       }else{
-           $keys="key";
-       }
-
-        //  $this->addFlash('error','You need '.$needed.' '.$keys.' to unlock this chest');
-        
-   
+   //Show Image 2
+   if ($num==10  && 
+   ($nbShownImages==1001||$nbShownImages==101||$nbShownImages==1||$nbShownImages==1101)
+    && $PriceKey<=$nbCle ){
+   $IsHidden=true;
    }
+   // Show Image 3
+   else if ($num==100  && 
+   ($nbShownImages==11||$nbShownImages==1001||$nbShownImages==1||$nbShownImages==1011) 
+   && $PriceKey<=$nbCle ){ 
+    $IsHidden=true;
+   // Show Image 4 
+   }else if($num==1000  && 
+   ($nbShownImages==11||$nbShownImages==101||$nbShownImages==1||$nbShownImages==111) 
+   && $PriceKey<=$nbCle ){
+    $IsHidden=true;
+   }else{
+       $IsHidden=false ;
+   }
+   if($IsHidden){
+    $Player->setShownImages($nbShownImages+$num);
+    $Player->setCle($nbCle-$PriceKey);
+    $em->persist($Player);
+    $em->flush();
+   }
+
   return $this->redirectToRoute('game');
 }
 
@@ -318,14 +330,14 @@ public function VictoryScreen(Player $player,$reward,$response,$elo,$LP){
 $BE = $player->getBE();
 $Cle = $player->getCle() ; 
 
-
     return $this->render('default/victory.html.twig',[
         'BE'=>$BE,
         'Cle'=>$Cle,
         'reward'=>$reward,
         'response'=>$response,
         'elo'=>$elo,
-        'LP'=>$LP
+        'LP'=>$LP,
+        
     ]);
 
 }

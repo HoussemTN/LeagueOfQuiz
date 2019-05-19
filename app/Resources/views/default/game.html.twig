@@ -46,7 +46,7 @@
                     <table>
                         <tr>
                             <td class="images"><img src={{q.image1}}></td>
-                            <td class="images"><a href="{{ path('showImage',{id: 1 ,num :10,PriceKey :1}) }}">
+                            <td class="images" ><a  href="{{ path('showImage',{id: 1 ,num :10,PriceKey :1}) }}" >
                             <img src={{q.image2}}></a></td>
                         </tr>
                         <tr>
@@ -85,6 +85,14 @@
                
             </div>
         </div>
+            <script> 
+   function clickAndDisable(link) {
+    //disable spam clicks
+     link.onclick = function(event) {
+        event.preventDefault();
+     }
+   }   
+</script>
     </body>
 
 </html>
