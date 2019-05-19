@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>League of Legends</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+     {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{asset('css/style.css')}}" />
+     {% endblock %}
+      {% block scripts %}
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/script.js')}}"></script>
+      {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="head">
+                <div class="left-title">
+
+                </div>
+                <table>
+                    <tr>
+                        <td><img src="img/be.png" class="loot"></td>
+                        <td><img src="img/key.png" class="loot"></td>
+                        <td><img src="{{elo}}" class="loot"></td>
+
+                    </tr>
+                    <tr>
+
+                        <td class="loot-quantity">{{BE}}</td>
+                        <td class="loot-quantity">{{Cle}}</td>
+                        <td class="loot-quantity">{{LP}}</td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+            <div class="body">
+
+                <center class="mt">
+                    <img src="img/lol-victory.png">
+                    <table>
+                        <tr>
+                            <td class="offer-description">Reward : </td>
+                            <td class="white">+ {{reward}} LP</td>
+                            <div class="head"></div>
+                        </tr>
+
+                        <tr>
+                            <td class="offer-description">Answer : </td>
+                            <td class="white">{{response}} </td>
+                        </tr>
+                         <tr>
+                            <td class="offer-description">Loot : </td>
+                            <td class="white">+ 1000</td>
+                        </tr>
+                    </table>
+                    <center>
+                        <a href="/game"> <button name="login" class="form-control login">Next Level</button></a>
+                    </center>
+                </center>
+            </div>
+
+
+        </div>
+
+    </div>
+</body>
+
+</html>

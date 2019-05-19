@@ -85,6 +85,7 @@ public function game(Request $request){
     //get Question for the player 
     $repository = $this->getDoctrine()->getRepository(Question::class);
     $question=$repository->find($player->getIdQuestion()->getRank());
+   
     //manage ranks
     $rank = $player->getScore();
     if($rank==0){
@@ -137,28 +138,35 @@ if ($f->isSubmitted() && $f->isValid()){
     // getting current loot
     $BE= $player->getBE(); 
     $score = $player->getScore();
-
-
+   $reward=$question->getReward();
+  //current question response
+  $response= $question->getResponse();
     // if response is correct
-    if($data->getResponse()==$question->getResponse()){
+    if($data->getResponse()==$response){
        $player->setBE($BE+1000); 
         $player->setScore($score+$question->getReward());
         $player->setShownImages(1);
         $em=$this->getDoctrine()->getManager();
-        // player->getIdGuestion return a question object then we acces to rank and increment it
-        $question=$em->getRepository(Question::class)->find($player->getIdQuestion()->getRank()+1);
-        $player->setIdQuestion($question);
-        $em->persist($player);
-         $em->flush();  
-          // TODO Create Victory Screen 
-         
-    // if response is incorrect     
-    } if ($data->getResponse()!=$question->getResponse()){
-        $this->addFlash('errors-game','Incorrect Answer');
+        //level up if not the last level
+        if ($player->getIdQuestion()->getRank()!=3){ 
+    // player->getIdGuestion return a question object then we acces to rank and increment it
+    $question=$em->getRepository(Question::class)->find($player->getIdQuestion()->getRank()+1);
+    $player->setIdQuestion($question);
+        }
     
+        
+        $em->persist($player);
+         $em->flush($player);  
+        
+          // TODO Create Victory Screen 
+        return self::VictoryScreen($player,$reward,$response,$elo,$LP);  
+    // if response is incorrect     
+    } else if ($data->getResponse()!=$question->getResponse()){
+        $this->addFlash('errors-game','Incorrect Answer');
+        return $this->redirectToRoute('game');    
     }
    
-    return $this->redirectToRoute('game');
+ 
 }
 return $this->render('default/game.html.twig', [
     'p'=>$player,
@@ -302,6 +310,24 @@ public function shop($id){
 }else{}
     
 //end ControlShownImage function  
+}
+/** 
+*@Route("/victory/{player}/{reward}/{response}/{elo}/{LP}",name="victory")
+*/
+public function VictoryScreen(Player $player,$reward,$response,$elo,$LP){
+$BE = $player->getBE();
+$Cle = $player->getCle() ; 
+
+
+    return $this->render('default/victory.html.twig',[
+        'BE'=>$BE,
+        'Cle'=>$Cle,
+        'reward'=>$reward,
+        'response'=>$response,
+        'elo'=>$elo,
+        'LP'=>$LP
+    ]);
+
 }
 //end class
 }
