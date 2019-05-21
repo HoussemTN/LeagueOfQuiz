@@ -85,7 +85,7 @@ public function game(Request $request){
     //get Question for the player 
     $repository = $this->getDoctrine()->getRepository(Question::class);
     $question=$repository->find($player->getIdQuestion()->getRank());
-    if ($player->getIdQuestion()->getRank()==3){
+    if ($player->getIdQuestion()->getRank()==21){
         //TODO LeaderBoard
         return $this->redirectToRoute('signin');
     }
@@ -151,7 +151,7 @@ if ($f->isSubmitted() && $f->isValid()){
         $player->setShownImages(1);
         $em=$this->getDoctrine()->getManager();
         //level up if not the last level
-        if ($player->getIdQuestion()->getRank()!=3){ 
+        if ($player->getIdQuestion()->getRank()!=21){ 
     // player->getIdGuestion return a question object then we acces to rank and increment it
     $question=$em->getRepository(Question::class)->find($player->getIdQuestion()->getRank()+1);
     $player->setIdQuestion($question);
@@ -226,6 +226,8 @@ public function showImage($id,$num,$PriceKey)
     $Player->setCle($nbCle-$PriceKey);
     $em->persist($Player);
     $em->flush();
+   }else{
+    $this->addFlash('errors-game',"You don't have enough keys !");
    }
 
   return $this->redirectToRoute('game');
@@ -341,6 +343,33 @@ $Cle = $player->getCle() ;
     ]);
 
 }
+
+
+/**
+* @Route("/leaderboard", name="leaderboard")
+*/
+public function Leaderboard(Request $request)
+{
+   $em=$this->getDoctrine()->getRepository(Player::class);
+   $players=$em->findAll();
+
+   return $this->render('default/leaderboard.html.twig', [
+       'p' => $players
+   ]);
+}
+/**
+* @Route("/menu", name="menu")
+*/
+public function menu(Request $request)
+{
+   
+
+   return $this->render('default/menu.html.twig', [
+       
+   ]);
+}
+
+
 //end class
 }
 

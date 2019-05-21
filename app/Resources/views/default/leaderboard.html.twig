@@ -1,0 +1,19 @@
+<table >
+   <tr>
+       <th >Username</th>
+       <th >Cle</th>
+       <th >BE</th>
+       <th >Level</th>
+       <th >Score</th>
+   </tr>
+
+   {% for el in p %}
+       <tr>
+           <td>{{ el.username }}</td>
+           <td>{{ el.Cle }}</td>
+           <td>{{ el.Be }}</td>
+          <td>{{ el.idQuestion.rank}}</td>
+           <td>{{ el.score }}</td>
+  </tr>
+   {% endfor %}
+</table>
