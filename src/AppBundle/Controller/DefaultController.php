@@ -167,7 +167,7 @@ if ($f->isSubmitted() && $f->isValid()){
         $em->persist($player);
          $em->flush($player);  
         
-          // TODO Create Victory Screen 
+          
         return self::VictoryScreen($player,$reward,$response,$elo,$LP);  
     // if response is incorrect     
     } else if ($data->getResponse()!=$question->getResponse()){
@@ -364,7 +364,8 @@ $Cle = $player->getCle() ;
 public function Leaderboard(Request $request)
 {
    $em=$this->getDoctrine()->getRepository(Player::class);
-   $players=$em->findAll();
+   //sort players by their scores and BE Quantity
+   $players=$em->findBy(array(), array('Score' => 'Desc','BE' => 'Desc'));
 
    return $this->render('default/leaderboard.html.twig', [
        'p' => $players

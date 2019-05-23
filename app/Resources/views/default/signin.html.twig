@@ -33,15 +33,21 @@
 
         </div>
         <div class="login-screen">
+        
             <div class="login-container">
-                <div class="center"> <img src="img/logo.png" alt="League Of Draven" width="180px" height="80px"></div>
-
+               
+ <div class="center"> <img src="img/logo.png" alt="League Of Draven" width="180px" height="80px"></div>
                 <h1>SIGN IN</h1>
-                
+                 {% if error %}
+             
+             <p class="error">⦿ {{ error.message }}</p>
+              
+               {% endif %}
                 <div class="space_xs"></div>
+
               <form action="{{ path('signin') }}" method="post">
                 
-             <label for="username">Username:</label>
+             <label for="username">Email:</label>
               <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" autocomplete="off"/>
               <div class="space_xs"></div>
              <label for="password">Password:</label>

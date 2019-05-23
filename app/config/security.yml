@@ -9,7 +9,7 @@ security:
         db_provider:
             entity:
                 class: AppBundle:Player
-                property: Username
+                property: Email
 
 
     firewalls:
@@ -30,6 +30,5 @@ security:
     access_control:
         - { path: /signup, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
         - { path: /signin, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
-        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }              
             
