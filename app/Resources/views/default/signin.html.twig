@@ -39,24 +39,19 @@
                 <h1>SIGN IN</h1>
                 
                 <div class="space_xs"></div>
-              {{ form_start(f) }}
-            
+              <form action="{{ path('signin') }}" method="post">
+                
+             <label for="username">Username:</label>
+              <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" autocomplete="off"/>
               <div class="space_xs"></div>
-                {{ form_label(f.Username) }}
-                <div class="space_xs"></div>
-             {{ form_widget(f.Username, {'attr': {'class': 'form-control','autocomplete' : 'off'}}) }}
-            
-              <div class="space_xs"></div>
-               {{ form_label(f.Password) }}
-               <div class="space_xs"></div>
-                {{ form_widget(f.Password, {'attr': {'class': 'form-control','autocomplete' : 'off'}}) }}
-                <div class="space_x"></div>
-               
-                {{ form_widget(f.SIGNIN, {'attr': {'class': 'form-control login'}}) }}
-               {{ form_widget(f.SIGNIN, { 'value': 'SiopUP' }) }}
-               
-              {{ form_end(f) }}
-         
+             <label for="password">Password:</label>
+               <input type="password" id="password" name="_password" class="form-control" autocomplete="off"/>
+                    <!-- if login sucess go to menu-->
+                  <input type="hidden" name="_target_path" value="/menu" />
+                     <div class="space_x"></div>
+                        <div class="space_xs"></div>
+                  <button type="submit" id="login" class="form-control" >SIGN IN</button>
+              </form>
             <a href="/signup"> <button   name="login" class="form-control login" >SIGN UP</button></a>
             
             </div>

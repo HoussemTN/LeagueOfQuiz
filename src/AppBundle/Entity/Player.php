@@ -6,14 +6,29 @@ use AppBundle\Entity\Question;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface ;
 
+
+ 
 /**
- * @ORM\Entity
+ * @ORM\Entity 
  * @ORM\Table(name="player")
- * @UniqueEntity("Email")
+ * @UniqueEntity("Email") 
  */
-class Player { 
+class Player implements UserInterface{ 
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+    public function getSalt()
+    {
+        return null;
+    }
 
+    public function eraseCredentials()
+    {
+        return null;
+    }
     /**
      * @ORM\ManyToOne(targetEntity="Question", cascade={"remove"})
      * @ORM\JoinColumn(name="idQuestion", referencedColumnName="id",onDelete="CASCADE", nullable=false)

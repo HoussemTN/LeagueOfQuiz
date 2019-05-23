@@ -25,11 +25,11 @@
                     
                    
                     <center>
-                        <a href="/newgame"> <button name="login" class="form-control login">New game</button></a><br>
+                        <a href="{{ path('newgame',{ id: 1 }) }}"> <button name="login" class="form-control login">New game</button></a><br>
                         <a href="/game"> <button name="login" class="form-control login">Load game</button></a><br>
                         <a href="{{ path('shop',{ id: 1 }) }}" > <button name="login" class="form-control login">Shop</button></a><br>
                         <a href="/leaderboard"> <button name="login" class="form-control login">Leaderboard</button></a><br>
-                         <a href="/signin"> <button name="login" class="form-control login">Log Out</button></a>
+                         <a href="/logout"> <button name="login" class="form-control login">Log Out</button></a>
                     </center>
                     <div class="lolimgs">
                     <img src="img/3.png" id="imgs1">

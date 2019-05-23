@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 
@@ -21,7 +22,7 @@ class DefaultController extends Controller
     /**
     * @Route("/signup",name="signup")
     */
-public function signup(Request $request)
+public function signup(Request $request, UserPasswordEncoderInterface $encoder)
 {
    $newPlayer=new Player();
    $f=$this->createFormBuilder($newPlayer)
@@ -39,6 +40,11 @@ public function signup(Request $request)
         $em=$this->getDoctrine()->getManager();
         // new user starts with the first question
         $firstIdQuestion = $em->find('AppBundle\Entity\Question', 1);
+        //encode password
+        $data = $f->getData();
+        $plainPassword=$data->getPassword();
+        $encoded = $encoder->encodePassword($newPlayer, $plainPassword);
+        $newPlayer->setPassword($encoded);
         $newPlayer->setIdQuestion($firstIdQuestion);
        $em->persist($newPlayer);
        $em->flush();
@@ -49,10 +55,7 @@ public function signup(Request $request)
    
 }
  
-  /**
-    * @Route("/",name="signin")
-    */
-   
+/*
 public function signin(Request $request)
 {
    $newPlayer=new Player();
@@ -72,27 +75,30 @@ public function signin(Request $request)
        "f"=>$f->createView()
    ]);
 }
-
+*/
  /**
     * @Route("/game",name="game")
     */
 public function game(Request $request){
+    $user = $this->getUser();
+    $id =$user->getId(); 
    $player= new Player();
     $repository = $this->getDoctrine()->getRepository(Player::class);
     // 1 is the player id that should be given as parameter
-    $player=$repository->find(1);
+    $player=$repository->find($id);
   
     //get Question for the player 
     $repository = $this->getDoctrine()->getRepository(Question::class);
     $question=$repository->find($player->getIdQuestion()->getRank());
     if ($player->getIdQuestion()->getRank()==21){
-        //TODO LeaderBoard
-        return $this->redirectToRoute('signin');
+     
+        return $this->redirectToRoute('leaderboard');
     }
     //manage ranks
     $rank = $player->getScore();
     if($rank==0){
         $elo= "img/ranks/unranked.jfif";
+        $LP=$rank;
     }else if ($rank>0 && $rank<=100){
         $elo= "img/ranks/Iron.png";
         $LP=$rank;
@@ -197,6 +203,8 @@ public function suppPlayer($id)
 */
 public function showImage($id,$num,$PriceKey)
 {
+    $user = $this->getUser();
+    $id =$user->getId(); 
    $em=$this->getDoctrine()->getManager();
    $Player=$em->getRepository(Player::class)->find($id);
    $nbShownImages= $Player->getShownImages();
@@ -237,6 +245,8 @@ public function showImage($id,$num,$PriceKey)
 * @Route("/shop/{id}", name="shop")
 */
 public function shop($id){
+    $user = $this->getUser();
+    $id =$user->getId(); 
     $player= new Player();
     $repository = $this->getDoctrine()->getRepository(Player::class);
     $player=$repository->find($id);
@@ -244,6 +254,7 @@ public function shop($id){
  $rank = $player->getScore();
  if($rank==0){
      $elo= "img/ranks/unranked.jfif";
+     $LP=$rank;
  }else if ($rank>0 && $rank<=100){
      $elo= "img/ranks/Iron.png";
      $LP=$rank;
@@ -284,6 +295,8 @@ public function shop($id){
 * @Route("/PurchaseKeys/{id}/{price}/{Quantity}", name="PurchaseKeys")
 */
  public function PurchaseKeys($id,$price,$Quantity){
+    $user = $this->getUser();
+    $id =$user->getId(); 
     $player= new Player();
     $repository = $this->getDoctrine()->getRepository(Player::class);
     $player=$repository->find($id);
@@ -367,6 +380,27 @@ public function menu(Request $request)
    return $this->render('default/menu.html.twig', [
        
    ]);
+}
+/**
+*@Route("newgame/{id}",name="newgame")
+*/
+public function newgame(int $id){
+    $user = $this->getUser();
+    $id =$user->getId(); 
+    $player= new Player();
+    $repository = $this->getDoctrine()->getRepository(Player::class);
+    $player=$repository->find($id);
+    $player->setBE(1000);
+    $player->setCle(0);
+    $player->setScore(0);
+    $player->setShownImages(1);
+    $em=$this->getDoctrine()->getManager();
+    $firstIdQuestion = $em->find('AppBundle\Entity\Question', 1);
+    $player->setIdQuestion($firstIdQuestion);
+   $em->persist($player);
+   $em->flush();
+   return $this->redirectToRoute('game');
+
 }
 
 

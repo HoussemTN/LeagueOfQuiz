@@ -1,5 +1,9 @@
+html {
+    overflow: hidden;
+}
+
 body {
-    background: #010a13 no-repeat fixed 100% 100%;
+    background: url("../img/b2.jpg") no-repeat fixed 100% 100%;
     background-position: center;
     background-size: cover;
 }
@@ -175,8 +179,8 @@ body {
     position: absolute;
     height: 40%;
     width: 40%;
-    margin-top: 17.9%;
-    margin-left: 9.8%;
+    margin-top: 20.9%;
+    margin-left: 9%;
     margin-bottom: 0%;
     z-index: 0;
 }
@@ -187,7 +191,7 @@ body {
     width: 25%;
     margin-top: -3%;
     margin-left: -40.75%;
-    z-index: 1;
+    z-index: 5;
 }
 
 #imgs3 {
@@ -197,4 +201,64 @@ body {
     margin-top: 23%;
     margin-left: -50%;
     z-index: 1;
+}
+
+
+/*LeaderBoard Style*/
+
+.leader {
+    overflow-y: auto;
+    color: white;
+    font-size: 30px;
+    margin-top: 20px;
+    min-width: 200px;
+    height: 500px;
+}
+
+.td {
+    text-align: center;
+    padding: 10px;
+    width: 170px;
+    font-family: "Rockwell Condensed";
+}
+
+hr {
+    color: 2px solid #463714;
+}
+
+#first>td {
+    font-weight: bold;
+    font-size: 25px;
+    color: #a7c20d;
+}
+
+.back-game {
+    padding-left: 2px;
+    width: 16px;
+    height: 12px;
+    margin-top: 3px;
+}
+
+.left-title {
+    font-weight: bold;
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    float: left;
+    padding: 5px;
+    color: #c9aa71;
+    margin-left: 5px;
+}
+
+.leaderboard {
+    margin: 5px;
+    color: #785a28;
+    float: right;
+    padding-left: 4px;
+    width: 32px;
+    height: 30px;
+    border-radius: 70%;
+    border: 2px solid #463714;
+    background-color: #181a1b;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 0 0 1px rgba(0, 0, 0, 0.25);
+    outline: none;
 }

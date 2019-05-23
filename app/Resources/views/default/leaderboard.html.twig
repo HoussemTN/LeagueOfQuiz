@@ -1,19 +1,70 @@
-<table >
-   <tr>
-       <th >Username</th>
-       <th >Cle</th>
-       <th >BE</th>
-       <th >Level</th>
-       <th >Score</th>
-   </tr>
 
-   {% for el in p %}
-       <tr>
-           <td>{{ el.username }}</td>
-           <td>{{ el.Cle }}</td>
-           <td>{{ el.Be }}</td>
-          <td>{{ el.idQuestion.rank}}</td>
-           <td>{{ el.score }}</td>
-  </tr>
-   {% endfor %}
-</table>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Leaderboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{asset('css/menu-style.css')}}" />
+     {% endblock %}
+      {% block scripts %}
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/script.js')}}"></script>
+      {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="head">
+                <div class="left-title">
+                    <table>
+                <tr>
+                    <td><a href="/menu"><button class="leaderboard" value="Leaderboard"/>
+                        <img src="../img/left-arrow.png" class="back-game" /></button>
+                        </a>
+                    </td>
+                    <td>
+                    Leaderboard
+                    </td>
+                </tr>
+                </table>
+                </div>
+
+
+            </div>
+
+            <div class="leader">
+                <table id="lead">
+                    <tr id="first">
+                    <td class="td">Rank</td>
+                        <td class="td">Name </td>
+                        <td class="td">Level</td>
+                        <td class="td">Key</td>
+                        <td class="td">BE</td>
+                        <td class="td">Score</td>
+                    </tr>
+                   {% set i = 0 %}
+                {% for el in p %}
+                {% set i = i + 1 %}
+                 
+                    <tr>
+                    <td class="td">#{{i}}</td>
+                        <td class="td"> {{ el.username }}</td>
+                        <td class="td">{{ el.idQuestion.rank}}</td>
+                        <td class="td">{{ el.Cle }}</td>
+                        <td class="td">{{ el.Be }}</td>
+                        <td class="td">{{ el.score }}</td>
+                    </tr>
+                {% endfor %}
+                 </table>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

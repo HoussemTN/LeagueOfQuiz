@@ -1,11 +1,16 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
-
+    encoders:
+        AppBundle\Entity\Player: 
+            algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        db_provider:
+            entity:
+                class: AppBundle:Player
+                property: Username
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -15,4 +20,16 @@ security:
 
         main:
             anonymous: ~
+            form_login:
+                login_path: signin
+                check_path: signin 
+            logout:
+                path: /logout
+                target: /signin
+
+    access_control:
+        - { path: /signup, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
+        - { path: /signin, roles: IS_AUTHENTICATED_ANONYMOUSLY } 
+        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }              
             
