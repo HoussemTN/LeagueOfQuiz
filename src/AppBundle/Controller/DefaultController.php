@@ -9,6 +9,7 @@ use AppBundle\Entity\Player;
 use AppBundle\Entity\Question;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -308,7 +309,7 @@ public function shop($id){
     $em=$this->getDoctrine()->getManager();
     $em->persist($player);
     $em->flush();
-    $this->addFlash('valid',"Purchase Sucessfully done !");
+    $this->addFlash('valid',"Purchase Successfully done !");
 }else{
     $this->addFlash('error','You Don\'t Have enough BE!');
 }
