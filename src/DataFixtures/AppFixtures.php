@@ -1,8 +1,9 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\Player;
+use AppBundle\Entity\Question;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
@@ -10,15 +11,21 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
-            $player = new Player();
-            $player>setName('player '.$i);
-            $player>setUsername('player '.$i);
-            $player>setEmail('player '.$i);
-            $player>setPassword('player '.$i);
-            $manager->persist($player);
+        for ($i = 1; $i < 22; $i++) {
+
+            $question = new Question();
+            $question->SetRank($i);
+            $question->setResponse($i);
+            $question->setReward(rand(100,250));
+            $question->setImage1("1.JPG");
+            $question->setImage2("2.JPG");
+            $question->setImage3("3.JPG");
+            $question->setImage4("4.JPG");
+            $question->setHint("test");
+            $manager->persist($question);
         }
 
         $manager->flush();
     }
 }
+

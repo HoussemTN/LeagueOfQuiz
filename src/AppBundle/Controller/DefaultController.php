@@ -19,41 +19,40 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends Controller
 {
-   
-    /**
+   /**
     * @Route("/signup",name="signup")
     */
-public function signup(Request $request, UserPasswordEncoderInterface $encoder)
-{
-   $newPlayer=new Player();
-   $f=$this->createFormBuilder($newPlayer)
-       ->add("Name",TextType::class,array('label' => 'Name : '))
-       ->add("Username",TextType::class,array('label' => 'Username : '))
-       ->add("Email",TextType::class,array('label' => 'Email : '))
-       ->add("Password",PasswordType::class,array('label' => 'Password : '))
-       ->add("Signup",SubmitType::class ,array('label' => 'SIGN UP'))
-       ->getForm();
-     $f->handleRequest($request);
-     $validator = $this->get('validator');
-     $errors = $validator->validate($newPlayer);
- 
-    if ($f->isSubmitted() && $f->isValid()){
-        $em=$this->getDoctrine()->getManager();
-        // new user starts with the first question
-        $firstIdQuestion = $em->find('AppBundle\Entity\Question', 1);
-        //encode password
-        $data = $f->getData();
-        $plainPassword=$data->getPassword();
-        $encoded = $encoder->encodePassword($newPlayer, $plainPassword);
-        $newPlayer->setPassword($encoded);
-        $newPlayer->setIdQuestion($firstIdQuestion);
-       $em->persist($newPlayer);
-       $em->flush();
-       return $this->redirectToRoute('signin');
-    }
-   return $this->render('default/signup.html.twig', 
-   ["f"=>$f->createView(),'errors' => $errors,]);
-   
+    public function signup(Request $request, UserPasswordEncoderInterface $encoder)
+    {
+       $newPlayer=new Player();
+       $f=$this->createFormBuilder($newPlayer)
+           ->add("Name",TextType::class,array('label' => 'Name : '))
+           ->add("Username",TextType::class,array('label' => 'Username : '))
+           ->add("Email",TextType::class,array('label' => 'Email : '))
+           ->add("Password",PasswordType::class,array('label' => 'Password : '))
+           ->add("Signup",SubmitType::class ,array('label' => 'SIGN UP'))
+           ->getForm();
+         $f->handleRequest($request);
+         $validator = $this->get('validator');
+         $errors = $validator->validate($newPlayer);
+
+        if ($f->isSubmitted() && $f->isValid()){
+            $em=$this->getDoctrine()->getManager();
+            // new user starts with the first question
+            $firstIdQuestion = $em->find('AppBundle\Entity\Question', 1);
+            //encode password
+            $data = $f->getData();
+            $plainPassword=$data->getPassword();
+            $encoded = $encoder->encodePassword($newPlayer, $plainPassword);
+            $newPlayer->setPassword($encoded);
+            $newPlayer->setIdQuestion($firstIdQuestion);
+           $em->persist($newPlayer);
+           $em->flush();
+           return $this->redirectToRoute('signin');
+        }
+       return $this->render('default/signup.html.twig',
+       ["f"=>$f->createView(),'errors' => $errors,]);
+
 }
  
 /*
@@ -335,7 +334,7 @@ public function shop($id){
     $question->setImage3('img/chest.jpg');
 }else if($player->getShownImages()==1101){
     $question->setImage2('img/chest.jpg');
-}else{}
+}
     
 //end ControlShownImage function  
 }
@@ -386,7 +385,7 @@ public function menu(Request $request)
 /**
 *@Route("newgame/{id}",name="newgame")
 */
-public function newgame(int $id){
+public function newgame($id){
     $user = $this->getUser();
     $id =$user->getId(); 
     $player= new Player();
